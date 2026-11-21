@@ -1,0 +1,224 @@
+{
+  "input_sha256": "9233552ccc816cdb5bcfe30759ac4236eed01a87c62c7e93b91cf807fc2e5c2d",
+  "method": "mean ± t(0.975, n − 1) × sample standard deviation / √n",
+  "confidence": 0.95,
+  "scipy": "1.18.1",
+  "groups": [
+    {
+      "mode": "1xxx",
+      "property": "UTS (MPa)",
+      "group": "Cold drawn",
+      "n": 52,
+      "mean": 545.1923076923077,
+      "low": 513.1957355911006,
+      "high": 577.1888797935148
+    },
+    {
+      "mode": "1xxx",
+      "property": "UTS (MPa)",
+      "group": "Cold drawn + Annealed",
+      "n": 21,
+      "mean": 652.1428571428571,
+      "low": 639.2364376003169,
+      "high": 665.0492766853973
+    },
+    {
+      "mode": "1xxx",
+      "property": "UTS (MPa)",
+      "group": "Hot rolled",
+      "n": 65,
+      "mean": 538.8461538461538,
+      "low": 502.26086493497627,
+      "high": 575.4314427573313
+    },
+    {
+      "mode": "1xxx",
+      "property": "YS (MPa)",
+      "group": "Cold drawn",
+      "n": 52,
+      "mean": 456.4423076923077,
+      "low": 429.26321796350294,
+      "high": 483.6213974211124
+    },
+    {
+      "mode": "1xxx",
+      "property": "YS (MPa)",
+      "group": "Cold drawn + Annealed",
+      "n": 21,
+      "mean": 524.5238095238095,
+      "low": 511.29367661954365,
+      "high": 537.7539424280754
+    },
+    {
+      "mode": "1xxx",
+      "property": "YS (MPa)",
+      "group": "Hot rolled",
+      "n": 65,
+      "mean": 298.0,
+      "low": 278.1977918477004,
+      "high": 317.8022081522996
+    },
+    {
+      "mode": "1xxx",
+      "property": "Hardness (HB)",
+      "group": "Cold drawn",
+      "n": 52,
+      "mean": 159.1153846153846,
+      "low": 149.67598658746505,
+      "high": 168.55478264330418
+    },
+    {
+      "mode": "1xxx",
+      "property": "Hardness (HB)",
+      "group": "Cold drawn + Annealed",
+      "n": 21,
+      "mean": 189.0,
+      "low": 186.0324946432311,
+      "high": 191.9675053567689
+    },
+    {
+      "mode": "1xxx",
+      "property": "Hardness (HB)",
+      "group": "Hot rolled",
+      "n": 65,
+      "mean": 158.06153846153848,
+      "low": 147.03716438889296,
+      "high": 169.085912534184
+    },
+    {
+      "mode": "1xxx",
+      "property": "Elongation (%)",
+      "group": "Cold drawn",
+      "n": 52,
+      "mean": 13.384615384615385,
+      "low": 12.488569223947248,
+      "high": 14.280661545283522
+    },
+    {
+      "mode": "1xxx",
+      "property": "Elongation (%)",
+      "group": "Cold drawn + Annealed",
+      "n": 21,
+      "mean": 10.19047619047619,
+      "low": 9.916637887121992,
+      "high": 10.464314493830388
+    },
+    {
+      "mode": "1xxx",
+      "property": "Elongation (%)",
+      "group": "Hot rolled",
+      "n": 65,
+      "mean": 18.615384615384617,
+      "low": 17.107073088579337,
+      "high": 20.123696142189896
+    },
+    {
+      "mode": "other",
+      "property": "UTS (MPa)",
+      "group": "Annealed",
+      "n": 19,
+      "mean": 664.2105263157895,
+      "low": 608.3812642287944,
+      "high": 720.0397884027846
+    },
+    {
+      "mode": "other",
+      "property": "UTS (MPa)",
+      "group": "Normalized",
+      "n": 19,
+      "mean": 838.6842105263158,
+      "low": 747.866945898685,
+      "high": 929.5014751539467
+    },
+    {
+      "mode": "other",
+      "property": "UTS (MPa)",
+      "group": "Quenched and tempered",
+      "n": 12,
+      "mean": 1122.9166666666667,
+      "low": 1052.2123919609585,
+      "high": 1193.620941372375
+    },
+    {
+      "mode": "other",
+      "property": "YS (MPa)",
+      "group": "Annealed",
+      "n": 19,
+      "mean": 410.5263157894737,
+      "low": 370.66821268604684,
+      "high": 450.38441889290056
+    },
+    {
+      "mode": "other",
+      "property": "YS (MPa)",
+      "group": "Normalized",
+      "n": 19,
+      "mean": 517.0,
+      "low": 438.70457706962725,
+      "high": 595.2954229303728
+    },
+    {
+      "mode": "other",
+      "property": "YS (MPa)",
+      "group": "Quenched and tempered",
+      "n": 12,
+      "mean": 1028.3333333333333,
+      "low": 950.4317551427129,
+      "high": 1106.2349115239535
+    },
+    {
+      "mode": "other",
+      "property": "Hardness (HB)",
+      "group": "Annealed",
+      "n": 19,
+      "mean": 189.52631578947367,
+      "low": 174.6876184684916,
+      "high": 204.36501311045575
+    },
+    {
+      "mode": "other",
+      "property": "Hardness (HB)",
+      "group": "Normalized",
+      "n": 19,
+      "mean": 249.6315789473684,
+      "low": 222.83132462825242,
+      "high": 276.4318332664844
+    },
+    {
+      "mode": "other",
+      "property": "Hardness (HB)",
+      "group": "Quenched and tempered",
+      "n": 12,
+      "mean": 327.5833333333333,
+      "low": 307.7773233151686,
+      "high": 347.38934335149804
+    },
+    {
+      "mode": "other",
+      "property": "Elongation (%)",
+      "group": "Annealed",
+      "n": 19,
+      "mean": 24.342105263157894,
+      "low": 22.17172827969096,
+      "high": 26.512482246624828
+    },
+    {
+      "mode": "other",
+      "property": "Elongation (%)",
+      "group": "Normalized",
+      "n": 19,
+      "mean": 20.77894736842105,
+      "low": 18.169862641598108,
+      "high": 23.388032095243993
+    },
+    {
+      "mode": "other",
+      "property": "Elongation (%)",
+      "group": "Quenched and tempered",
+      "n": 12,
+      "mean": 15.924999999999997,
+      "low": 14.791285448999906,
+      "high": 17.05871455100009
+    }
+  ]
+}
