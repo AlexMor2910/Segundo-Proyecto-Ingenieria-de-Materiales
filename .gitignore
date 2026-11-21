@@ -32,3 +32,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 
+
+# Local Python verification environment
+.venv-verification/
+

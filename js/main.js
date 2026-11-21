@@ -1,4 +1,10 @@
-﻿import { loadDataset, getColumnNames, getDatasetMetadata } from './data.js';
+import { loadDataset, getColumnNames, getDatasetMetadata } from './data.js';
+import { initializeCarbonChart } from './charts-point2.js';
+import { initializeProcessingChart } from './charts-processing.js';
+import { initializePoint3 } from './charts-point3.js';
+import { initializeTables } from './tables.js';
+import { loadVerifiedInference, initializeInference } from './inference.js';
+import { initializeMeanInference } from './charts-anova.js';
 
 function initializeNavigation() {
   const button = document.querySelector('.menu-toggle');
@@ -15,29 +21,6 @@ function initializeNavigation() {
     }
   });
 }
-function renderPreview(records, columns) {
-  const table = document.querySelector('#data-table');
-  const headerRow = document.createElement('tr');
-  columns.forEach(column => {
-    const cell = document.createElement('th');
-    cell.scope = 'col';
-    cell.textContent = column;
-    headerRow.append(cell);
-  });
-  table.tHead.replaceChildren(headerRow);
-  const rows = records.slice(0, 10).map(record => {
-    const row = document.createElement('tr');
-    columns.forEach(column => {
-      const cell = document.createElement('td');
-      cell.textContent = record[column] === null ? '—' : String(record[column]);
-      if (record[column] === null) cell.setAttribute('aria-label', 'Valor ausente');
-      row.append(cell);
-    });
-    return row;
-  });
-  table.tBodies[0].replaceChildren(...rows);
-  table.hidden = false;
-}
 async function initialize() {
   initializeNavigation();
   try {
@@ -47,11 +30,19 @@ async function initialize() {
     document.querySelector('#grade-count').textContent = metadata.gradeCount;
     document.querySelector('#property-count').textContent = metadata.mechanicalPropertyCount;
     document.querySelector('#dataset-status').textContent = 'Datos cargados correctamente.';
-    renderPreview(records, getColumnNames());
-    document.querySelector('#table-status').textContent = records.length ? '' : 'El archivo no contiene registros.';
+    initializeCarbonChart(records);
+    initializeProcessingChart(records);
+    initializePoint3(records);
+    const inference = await loadVerifiedInference();
+    initializeInference(inference);
+    await initializeMeanInference(inference);
+    await initializeTables(records, getColumnNames(), inference);
   } catch (error) {
+    document.querySelector('#chart-scope').textContent = 'No se pudo cargar la visualización.';
+    document.querySelector('#processing-scope').textContent = 'No se pudo cargar la comparación.';
+    document.querySelector('#p3-population').textContent = 'No se pudo cargar la población analítica.';
     const message = `No fue posible cargar los datos. ${error.message} Comprueba que data/steels.csv exista y que el sitio se abra mediante un servidor HTTP.`;
-    for (const id of ['dataset-status', 'table-status']) {
+    for (const id of ['dataset-status', 'tables-explorer']) {
       const element = document.getElementById(id);
       element.textContent = message;
       element.classList.add('error');
