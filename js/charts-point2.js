@@ -107,6 +107,13 @@ function drawChart(svg, tooltip, pairs, property, stats) {
   svg.append(element('text', {x:(left+right)/2,y:425,'text-anchor':'middle',class:'plot-label'}, 'Carbono nominal, C (%)'));
   svg.append(element('text', {x:18,y:(top+bottom)/2,transform:`rotate(-90 18 ${(top+bottom)/2})`,'text-anchor':'middle',class:'plot-label'}, property));
 }
+const propertyNotes = {
+  'UTS (MPa)': 'La resistencia última caracteriza el esfuerzo máximo alcanzado en el ensayo de tracción.',
+  'YS (MPa)': 'El esfuerzo de cedencia caracteriza el inicio de la deformación plástica en tracción.',
+  'Hardness (HB)': 'La dureza Brinell caracteriza la oposición a la deformación plástica localizada bajo un indentador.',
+  'Elongation (%)': 'La elongación tras la fractura expresa cuánto se alargó la probeta respecto a su longitud inicial de referencia.'
+};
+
 export function initializeCarbonChart(records) {
   const form = document.querySelector('#carbon-filters'), series = form.elements.series;
   const parts = records.map(record => gradeParts(record['SAE Grade'])).filter(Boolean);
@@ -116,6 +123,7 @@ export function initializeCarbonChart(records) {
     series.append(group);
   }
   const svg = document.querySelector('#carbon-chart'), tooltip = document.querySelector('#chart-tooltip');
+  const propertyNote = document.querySelector('#carbon-property-note');
   function update() {
     const field = name => form.elements[name];
     const minCarbon = field('minCarbon').value === '' ? null : Number(field('minCarbon').value);
@@ -123,9 +131,18 @@ export function initializeCarbonChart(records) {
     const invalid = minCarbon !== null && maxCarbon !== null && minCarbon > maxCarbon;
     const filtered = invalid ? [] : selectRecords(records, {series:series.value, processing:field('processing').value, minCarbon, maxCarbon});
     const property = field('property').value;
+    propertyNote.textContent = propertyNotes[property];
     const stats = calculateLinearStatistics(filtered, 'C (%)', property);
     document.querySelector('#chart-scope').textContent = `${series.selectedOptions[0].textContent} · ${field('processing').selectedOptions[0].textContent} · ${property} · ${stats.n} observaciones válidas de ${filtered.length} registros seleccionados`;
-    document.querySelector('#chart-message').textContent = invalid ? 'El mínimo de carbono debe ser menor o igual que el máximo.' : stats.n === 0 ? 'No hay observaciones válidas para esta selección.' : stats.n === 1 ? 'Una observación no permite calcular correlación ni regresión.' : stats.n <= 5 ? 'Muestra pequeña (n ≤ 5): los resultados pueden ser inestables; evita interpretar tendencias firmes.' : stats.r === null ? 'La correlación no es definible: falta variación en al menos una de las variables.' : '';
+    const messages = [];
+    if (invalid) messages.push('El mínimo de carbono debe ser menor o igual que el máximo.');
+    else if (stats.n === 0) messages.push('No hay observaciones válidas para esta selección.');
+    else if (stats.n === 1) messages.push('Una observación no permite calcular correlación ni regresión.');
+    else {
+      if (stats.n <= 5) messages.push('Con cinco pares válidos o menos, las estimaciones pueden ser inestables.');
+      if (stats.r === null) messages.push('Pearson requiere variación tanto en el carbono nominal como en la propiedad seleccionada. Al menos una variable es constante.');
+    }
+    document.querySelector('#chart-message').textContent = messages.join(' ');
     for (const [id, value] of Object.entries({n:stats.n,r:stats.r,slope:stats.slope,intercept:stats.intercept,r2:stats.r2})) document.querySelector(`#stat-${id}`).textContent = format(value);
     tooltip.textContent = 'Selecciona un punto para ver sus datos.';
     drawChart(svg, tooltip, stats.pairs, property, stats);

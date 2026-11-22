@@ -66,7 +66,25 @@ export function initializePoint3(records) {
       const result=correlation(selected,row,col,method),td=html('td');
       if(i===j){td.textContent=result.value===null?'—':'1.00';td.style.backgroundColor=correlationColor(result.value);} else {const b=html('button',result.value===null?'—':result.value.toFixed(2),'matrix-cell'); b.type='button';b.style.backgroundColor=correlationColor(result.value);b.setAttribute('aria-label',`${propertyNames[row]} y ${propertyNames[col]}: ${fmt(result.value)}, n ${result.n}`);b.setAttribute('aria-pressed',String((row===x&&col===y)||(row===y&&col===x)));b.addEventListener('click',()=>setPair(row,col));td.append(b);}tr.append(td);
     });matrix.append(tr);});
-    const list=document.querySelector('#p3-ranking');list.replaceChildren();rankPairs(selected,method,fields.sign.value).forEach(item=>{const li=html('li'),direction=item.value===null?'Sin clasificación':item.value>0?'Positiva':item.value<0?'Negativa':'Sin asociación',b=html('button',item.value===null?'No definible':`${item.value>=0?'+':'−'}${Math.abs(item.value).toFixed(4)}`);if(item.value === null) li.style.listStyle='none';b.type='button';b.setAttribute('aria-label',`${propertyNames[item.x]} y ${propertyNames[item.y]}, ${method==='spearman'?'Spearman':'Pearson'} ${fmt(item.value)}, ${direction}, n = ${item.n}`);b.style.backgroundColor=correlationColor(item.value);b.style.borderColor=correlationColor(item.value===null?null:Math.max(-1,Math.min(1,item.value*1.3)));b.addEventListener('click',()=>setPair(item.x,item.y));li.append(b);list.append(li)});
+    const list = document.querySelector('#p3-ranking');
+    const symbol = method === 'spearman' ? 'ρ' : 'r';
+    const methodName = method === 'spearman' ? 'Spearman' : 'Pearson';
+    list.replaceChildren();
+    rankPairs(selected, method, fields.sign.value).forEach(({ x, y, value, n }) => {
+      const pair = `${propertyNames[x]} — ${propertyNames[y]}`;
+      const coefficient = value === null ? fmt(value) : `${symbol} = ${value >= 0 ? '+' : ''}${fmt(value)}`;
+      const li = html('li');
+      const button = html('button');
+      if (value === null) li.style.listStyle = 'none';
+      button.type = 'button';
+      button.append(html('span', pair), html('strong', coefficient));
+      button.setAttribute('aria-label', `${pair}, ${coefficient}, ${methodName}, n = ${n}`);
+      button.style.backgroundColor = correlationColor(value);
+      button.style.borderColor = correlationColor(value === null ? null : Math.max(-1, Math.min(1, value * 1.3)));
+      button.addEventListener('click', () => setPair(x, y));
+      li.append(button);
+      list.append(li);
+    });
     const result=correlation(selected,x,y,method);document.querySelector('#p3-summary').textContent=`${propertyNames[x]} y ${propertyNames[y]} · ${method==='spearman'?'Spearman ρ':'Pearson r'} = ${fmt(result.value)} · n = ${result.n}${result.value===null?' · Se necesitan al menos tres pares y variación en ambas propiedades.':''}`;
     tooltip.textContent='Selecciona un punto para ver sus datos.';renderScatter(svg,tooltip,result,x,y,method);document.querySelector('#p3-explanation').textContent=explanation(x,y);
     const comparison=document.querySelector('#p3-comparison');comparison.replaceChildren();groups.forEach((g,i)=>{const r=correlation(population.filter(v=>v.processingGroup===g),x,y,method),row=html('tr'),label=html('th',groupLabels[i]),n=html('td',String(r.n)),value=html('td',fmt(r.value));label.scope='row';value.style.backgroundColor=correlationColor(r.value);row.append(label,n,value);comparison.append(row)});
